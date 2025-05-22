@@ -1,0 +1,95 @@
+@hostname=http://localhost:5000
+
+### Variables
+@baseUrl = http://localhost:5000
+
+###
+# Mine
+# @name Mine
+GET {{hostname}}/mine
+
+###
+# Create a new transaction
+# @name CreateTransaction
+POST {{hostname}}/transactions/new
+Content-Type: application/json
+
+{
+    "sender": "address1",
+    "recipient": "address2",
+    "amount": 50
+}
+
+###
+# Get the full chain
+# @name GetChain
+GET {{hostname}}/chain
+
+### Test Case 1: Mine a new block
+GET {{baseUrl}}/mine
+Content-Type: application/json
+
+### Test Case 2: Create a valid transaction (amount <= 100)
+POST {{baseUrl}}/transactions/new
+Content-Type: application/json
+
+{
+    "sender": "address1",
+    "recipient": "address2",
+    "amount": 50
+}
+
+### Test Case 3: Create an invalid transaction (amount > 100)
+POST {{baseUrl}}/transactions/new
+Content-Type: application/json
+
+{
+    "sender": "address1",
+    "recipient": "address2",
+    "amount": 150
+}
+
+### Test Case 4: Create a transaction with missing fields
+POST {{baseUrl}}/transactions/new
+Content-Type: application/json
+
+{
+    "sender": "address1",
+    "amount": 50
+}
+
+### Test Case 5: View the full blockchain
+GET {{baseUrl}}/chain
+Content-Type: application/json
+
+### Test Case 6: Create multiple valid transactions
+POST {{baseUrl}}/transactions/new
+Content-Type: application/json
+
+{
+    "sender": "address2",
+    "recipient": "address3",
+    "amount": 25
+}
+
+### Test Case 7: Create a transaction with zero amount
+POST {{baseUrl}}/transactions/new
+Content-Type: application/json
+
+{
+    "sender": "address3",
+    "recipient": "address1",
+    "amount": 0
+}
+
+### Test Case 8: Create a transaction with maximum allowed amount
+POST {{baseUrl}}/transactions/new
+Content-Type: application/json
+
+{
+    "sender": "address1",
+    "recipient": "address3",
+    "amount": 100
+}
+
+
